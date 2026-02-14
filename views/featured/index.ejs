@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+
+<main class="main-content page-featured">
+    <!-- Featured Page Background -->
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-overlay"></div>
+    
+    <div class="container">
+        <div class="page-header" data-aos="fade-up">
+            <h1>Featured Blogs</h1>
+            <p>Discover our handpicked selection of exceptional voices</p>
+        </div>
+
+        <!-- JSON-driven content loaded via JavaScript -->
+        <div class="blogs-grid" id="featuredBlogsGrid" data-aos="fade-up" data-aos-delay="100">
+            <div class="loading-message">Loading featured blogs...</div>
+        </div>
+    </div>
+</main>
+
+<%- include('../partials/footer') %>
+<script src="/js/featured.js"></script>
+

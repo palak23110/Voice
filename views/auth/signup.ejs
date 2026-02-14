@@ -1,0 +1,46 @@
+<%- include('../partials/header') %>
+
+<main class="main-content">
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-card" data-aos="fade-up">
+                <h1>Join Voices</h1>
+                <p>Create your account and start sharing your perspective with the world.</p>
+                
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <div class="error-message"><%= error %></div>
+                <% } %>
+
+                <form action="/auth/signup" method="POST" class="auth-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required placeholder="Choose a username">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required placeholder="At least 6 characters">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Re-enter your password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                </form>
+
+                <p class="auth-footer">
+                    Already have an account? <a href="/auth/login">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('../partials/footer') %>

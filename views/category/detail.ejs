@@ -1,0 +1,65 @@
+<%- include('../partials/header') %>
+
+<main class="main-content page-category-detail">
+    <!-- Category Background -->
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-overlay"></div>
+    
+    <div class="container">
+        <div class="page-header" data-aos="fade-up">
+            <h1><%= categoryName %> Blogs</h1>
+            <p>Explore perspectives on <%= categoryName %></p>
+        </div>
+
+        <!-- Statistics Section (JSON-driven) -->
+        <div class="category-stats" id="categoryStats" data-aos="fade-up" data-aos-delay="100">
+            <div class="stat-card" data-aos="zoom-in" data-aos-delay="0">
+                <div class="stat-value"><%= stats ? stats.totalPosts : 0 %></div>
+                <div class="stat-label">Total Posts</div>
+            </div>
+            <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
+                <div class="stat-value"><%= stats ? stats.totalViews : 0 %></div>
+                <div class="stat-label">Total Views</div>
+            </div>
+            <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
+                <div class="stat-label">Top Tags</div>
+                <div class="stat-tags">
+                    <% if (stats && stats.topTags && stats.topTags.length > 0) { %>
+                        <% stats.topTags.forEach(tag => { %>
+                            <span class="tag"><%= tag %></span>
+                        <% }); %>
+                    <% } else { %>
+                        <span class="no-tags">No tags yet</span>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blogs Grid -->
+        <div class="blogs-grid" id="categoryBlogsGrid" data-aos="fade-up" data-aos-delay="200">
+            <% if (blogs && blogs.length > 0) { %>
+                <% blogs.forEach(blog => { %>
+                    <div class="blog-card" data-blog-id="<%= blog._id %>" data-aos="zoom-in">
+                        <div class="blog-card-image">
+                            <img src="<%= blog.imageUrl || '/images/default-blog.jpg' %>" alt="<%= blog.title %>">
+                            <span class="blog-category"><%= blog.category %></span>
+                        </div>
+                        <div class="blog-card-content">
+                            <h3 class="blog-card-title"><a href="/blog/<%= blog._id %>"><%= blog.title %></a></h3>
+                            <p class="blog-card-excerpt"><%= blog.excerpt %></p>
+                            <div class="blog-card-meta">
+                                <span class="blog-author">By <%= blog.author %></span>
+                                <span class="blog-views">👁 <%= blog.views %> views</span>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p class="no-blogs">No blogs in this category yet. <a href="/blog/create/new">Be the first to write!</a></p>
+            <% } %>
+        </div>
+    </div>
+</main>
+
+<%- include('../partials/footer') %>
+

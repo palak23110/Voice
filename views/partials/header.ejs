@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'Voices - Share Your Perspective' %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">📢</span>
+                        <span class="logo-text">Voices</span>
+                    </a>
+                    <ul class="nav-menu" id="navMenu">
+                        <li><a href="/" class="nav-link">Home</a></li>
+                        <li><a href="/blog/list" class="nav-link">All Blogs</a></li>
+                        <li><a href="/featured" class="nav-link">Featured</a></li>
+                        <li><a href="/about" class="nav-link">About</a></li>
+                        <li><a href="/contact" class="nav-link">Contact</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="nav-link">Categories <span class="dropdown-arrow">▼</span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/category/Technology">Technology</a></li>
+                                <li><a href="/category/Politics">Politics</a></li>
+                                <li><a href="/category/Lifestyle">Lifestyle</a></li>
+                                <li><a href="/category/Art">Art</a></li>
+                                <li><a href="/category/Science">Science</a></li>
+                                <li><a href="/category/Business">Business</a></li>
+                                <li><a href="/category/Health">Health</a></li>
+                                <li><a href="/category/Education">Education</a></li>
+                            </ul>
+                        </li>
+                        <% if (typeof user !== 'undefined' && user) { %>
+                            <li><a href="/blog/create/new" class="nav-link">Write Blog</a></li>
+                            <li class="user-menu">
+                                <a href="#" class="nav-link user-link">
+                                    <span class="user-icon">👤</span>
+                                    <%= user.username %>
+                                </a>
+                                <ul class="user-dropdown">
+                                    <li><a href="/auth/logout">Logout</a></li>
+                                </ul>
+                            </li>
+                        <% } else { %>
+                            <li><a href="/auth/login" class="nav-link">Login</a></li>
+                            <li><a href="/auth/signup" class="nav-link btn-primary">Sign Up</a></li>
+                        <% } %>
+                    </ul>
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+

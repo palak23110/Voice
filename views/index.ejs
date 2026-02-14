@@ -1,0 +1,124 @@
+<%- include('partials/header') %>
+
+<main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title" data-aos="fade-up">Every Voice Matters</h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">Share your opinions and perspectives on technology, politics, lifestyle, art, and more. Join the conversation that inspires change and understanding.</p>
+                <div class="hero-buttons" data-aos="fade-up" data-aos-delay="400">
+                    <a href="/blog/list" class="btn btn-primary">Explore Blogs</a>
+                    <a href="/featured" class="btn btn-secondary">Featured Voices</a>
+                    <% if (typeof user !== 'undefined' && user) { %>
+                        <a href="/blog/create/new" class="btn btn-secondary">Write Your Story</a>
+                    <% } else { %>
+                        <a href="/auth/signup" class="btn btn-secondary">Join Voices</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Blogs Section -->
+    <section class="featured-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Featured Voices</h2>
+            <div class="blogs-grid" id="featuredBlogsGrid" data-aos="fade-up" data-aos-delay="100">
+                <% if (featuredBlogs && featuredBlogs.length > 0) { %>
+                    <% featuredBlogs.forEach((blog, index) => { %>
+                        <div class="blog-card" data-blog-id="<%= blog._id %>" data-aos="zoom-in" data-aos-delay="<%= index * 100 %>">
+                            <div class="blog-card-image">
+                                <img src="<%= blog.imageUrl || '/images/default-blog.jpg' %>" alt="<%= blog.title %>">
+                                <span class="blog-category"><%= blog.category %></span>
+                            </div>
+                            <div class="blog-card-content">
+                                <h3 class="blog-card-title"><a href="/blog/<%= blog._id %>"><%= blog.title %></a></h3>
+                                <p class="blog-card-excerpt"><%= blog.excerpt %></p>
+                                <div class="blog-card-meta">
+                                    <span class="blog-author">By <%= blog.author %></span>
+                                    <span class="blog-views">👁 <%= blog.views %> views</span>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p class="no-blogs">No featured blogs yet. Be the first to share your voice!</p>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Blogs Section -->
+    <section class="recent-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Latest Voices</h2>
+            <div class="blogs-grid" id="recentBlogsGrid" data-aos="fade-up" data-aos-delay="100">
+                <% if (recentBlogs && recentBlogs.length > 0) { %>
+                    <% recentBlogs.forEach((blog, index) => { %>
+                        <div class="blog-card" data-blog-id="<%= blog._id %>" data-aos="zoom-in" data-aos-delay="<%= index * 100 %>">
+                            <div class="blog-card-image">
+                                <img src="<%= blog.imageUrl || '/images/default-blog.jpg' %>" alt="<%= blog.title %>">
+                                <span class="blog-category"><%= blog.category %></span>
+                            </div>
+                            <div class="blog-card-content">
+                                <h3 class="blog-card-title"><a href="/blog/<%= blog._id %>"><%= blog.title %></a></h3>
+                                <p class="blog-card-excerpt"><%= blog.excerpt %></p>
+                                <div class="blog-card-meta">
+                                    <span class="blog-author">By <%= blog.author %></span>
+                                    <span class="blog-date"><%= new Date(blog.createdAt).toLocaleDateString() %></span>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p class="no-blogs">No recent blogs yet.</p>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Explore by Category</h2>
+            <div class="categories-grid" data-aos="fade-up" data-aos-delay="100">
+                <a href="/category/Technology" class="category-card" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="category-icon">💻</div>
+                    <h3>Technology</h3>
+                </a>
+                <a href="/category/Politics" class="category-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="category-icon">🏛️</div>
+                    <h3>Politics</h3>
+                </a>
+                <a href="/category/Lifestyle" class="category-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="category-icon">🌟</div>
+                    <h3>Lifestyle</h3>
+                </a>
+                <a href="/category/Art" class="category-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="category-icon">🎨</div>
+                    <h3>Art</h3>
+                </a>
+                <a href="/category/Science" class="category-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="category-icon">🔬</div>
+                    <h3>Science</h3>
+                </a>
+                <a href="/category/Business" class="category-card" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="category-icon">💼</div>
+                    <h3>Business</h3>
+                </a>
+                <a href="/category/Health" class="category-card" data-aos="zoom-in" data-aos-delay="600">
+                    <div class="category-icon">🏥</div>
+                    <h3>Health</h3>
+                </a>
+                <a href="/category/Education" class="category-card" data-aos="zoom-in" data-aos-delay="700">
+                    <div class="category-icon">📚</div>
+                    <h3>Education</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<%- include('partials/footer') %>
+

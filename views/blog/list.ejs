@@ -1,0 +1,82 @@
+<%- include('../partials/header') %>
+
+<main class="main-content page-blog-list">
+    <!-- Page Hero Background -->
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-overlay"></div>
+    
+    <div class="container">
+        <div class="page-header" data-aos="fade-up">
+            <h1>All Blogs</h1>
+            <p>Discover perspectives from voices around the world</p>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="filter-section" data-aos="fade-up" data-aos-delay="100">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search blogs by title, content, or tags...">
+                <button id="searchBtn" class="btn btn-primary">Search</button>
+            </div>
+            <div class="category-filters" id="categoryFilters">
+                <button class="filter-btn active" data-category="">All</button>
+                <button class="filter-btn" data-category="Technology">Technology</button>
+                <button class="filter-btn" data-category="Politics">Politics</button>
+                <button class="filter-btn" data-category="Lifestyle">Lifestyle</button>
+                <button class="filter-btn" data-category="Art">Art</button>
+                <button class="filter-btn" data-category="Science">Science</button>
+                <button class="filter-btn" data-category="Business">Business</button>
+                <button class="filter-btn" data-category="Health">Health</button>
+                <button class="filter-btn" data-category="Education">Education</button>
+            </div>
+        </div>
+
+        <!-- Blogs Grid -->
+        <div class="blogs-grid" id="blogsGrid" data-aos="fade-up" data-aos-delay="200">
+            <% if (blogs && blogs.length > 0) { %>
+                <% blogs.forEach(blog => { %>
+                    <div class="blog-card" data-blog-id="<%= blog._id %>" data-category="<%= blog.category %>" data-aos="zoom-in">
+                        <div class="blog-card-image">
+                            <img src="<%= blog.imageUrl || '/images/default-blog.jpg' %>" alt="<%= blog.title %>">
+                            <span class="blog-category"><%= blog.category %></span>
+                        </div>
+                        <div class="blog-card-content">
+                            <h3 class="blog-card-title"><a href="/blog/<%= blog._id %>"><%= blog.title %></a></h3>
+                            <p class="blog-card-excerpt"><%= blog.excerpt %></p>
+                            <div class="blog-card-meta">
+                                <span class="blog-author">By <%= blog.author %></span>
+                                <span class="blog-views">👁 <%= blog.views %> views</span>
+                            </div>
+                            <div class="blog-card-tags">
+                                <% if (blog.tags && blog.tags.length > 0) { %>
+                                    <% blog.tags.slice(0, 3).forEach(tag => { %>
+                                        <span class="tag"><%= tag %></span>
+                                    <% }); %>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p class="no-blogs">No blogs found. <a href="/blog/create/new">Be the first to write!</a></p>
+            <% } %>
+        </div>
+
+        <!-- Pagination -->
+        <% if (totalPages > 1) { %>
+            <div class="pagination" data-aos="fade-up">
+                <% if (currentPage > 1) { %>
+                    <a href="?page=<%= currentPage - 1 %><%= category ? '&category=' + category : '' %>" class="pagination-btn">Previous</a>
+                <% } %>
+                <% for (let i = 1; i <= totalPages; i++) { %>
+                    <a href="?page=<%= i %><%= category ? '&category=' + category : '' %>" 
+                       class="pagination-btn <%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+                <% } %>
+                <% if (currentPage < totalPages) { %>
+                    <a href="?page=<%= currentPage + 1 %><%= category ? '&category=' + category : '' %>" class="pagination-btn">Next</a>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+</main>
+
+<%- include('../partials/footer') %>

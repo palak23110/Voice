@@ -1,0 +1,42 @@
+{
+  "Technology": {
+    "totalPosts": 0,
+    "totalViews": 0,
+    "topTags": []
+  },
+  "Politics": {
+    "totalPosts": 1,
+    "totalViews": 1,
+    "topTags": []
+  },
+  "Lifestyle": {
+    "totalPosts": 0,
+    "totalViews": 0,
+    "topTags": []
+  },
+  "Art": {
+    "totalPosts": 0,
+    "totalViews": 0,
+    "topTags": []
+  },
+  "Science": {
+    "totalPosts": 0,
+    "totalViews": 0,
+    "topTags": []
+  },
+  "Business": {
+    "totalPosts": 0,
+    "totalViews": 0,
+    "topTags": []
+  },
+  "Health": {
+    "totalPosts": 0,
+    "totalViews": 0,
+    "topTags": []
+  },
+  "Education": {
+    "totalPosts": 0,
+    "totalViews": 0,
+    "topTags": []
+  }
+}

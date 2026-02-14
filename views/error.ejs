@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+
+<main class="main-content page-error">
+    <!-- Error Page Background -->
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-overlay"></div>
+    
+    <div class="container">
+        <div class="error-container">
+            <div class="error-content" data-aos="zoom-in">
+                <h1>Oops!</h1>
+                <p class="error-message"><%= typeof error !== 'undefined' ? error : 'Something went wrong' %></p>
+                <a href="/" class="btn btn-primary">Go Home</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('partials/footer') %>
+

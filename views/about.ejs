@@ -1,0 +1,65 @@
+<%- include('partials/header') %>
+
+<main class="main-content page-about">
+    <!-- Page Hero Background -->
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-overlay"></div>
+    
+    <div class="container">
+        <div class="page-header" data-aos="fade-up">
+            <h1>About Voices</h1>
+            <p>Empowering perspectives and meaningful conversations</p>
+        </div>
+
+        <div class="about-content" data-aos="fade-up" data-aos-delay="100">
+            <div class="about-section">
+                <h2 data-aos="fade-up">Our Mission</h2>
+                <p data-aos="fade-up" data-aos-delay="100">
+                    Voices is a platform for sharing opinions and perspectives on any topic. We believe every voice matters — from technology and politics to lifestyle and art. Our mission is to create meaningful conversations that inspire change and understanding.
+                </p>
+                <p data-aos="fade-up" data-aos-delay="200">
+                    In a world where information flows rapidly, we provide a space for thoughtful reflection, diverse viewpoints, and authentic expression. Whether you're passionate about the latest tech innovations, political developments, artistic movements, or personal growth, Voices is your platform to be heard.
+                </p>
+            </div>
+
+            <div class="about-section">
+                <h2 data-aos="fade-up">What We Stand For</h2>
+                <div class="timeline">
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="0">
+                        <h3>Freedom of Expression</h3>
+                        <p>We champion the right to express diverse opinions and perspectives, fostering an environment where all voices can be heard respectfully.</p>
+                    </div>
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+                        <h3>Quality Content</h3>
+                        <p>We value well-researched, thoughtful content that adds value to conversations and helps readers gain new insights.</p>
+                    </div>
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+                        <h3>Community Building</h3>
+                        <p>We believe in building a supportive community where writers and readers can engage in meaningful dialogue and learn from each other.</p>
+                    </div>
+                    <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
+                        <h3>Innovation</h3>
+                        <p>We continuously evolve our platform to provide the best experience for sharing and discovering perspectives.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2 data-aos="fade-up">Join Our Community</h2>
+                <p data-aos="fade-up" data-aos-delay="100">
+                    Whether you're a seasoned writer or just starting to share your thoughts, Voices welcomes you. Create an account, start writing, and join thousands of others who are making their voices heard.
+                </p>
+                <div data-aos="fade-up" data-aos-delay="200" style="margin-top: 32px;">
+                    <% if (typeof user !== 'undefined' && user) { %>
+                        <a href="/blog/create/new" class="btn btn-primary">Start Writing</a>
+                    <% } else { %>
+                        <a href="/auth/signup" class="btn btn-primary">Join Voices</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('partials/footer') %>
+
