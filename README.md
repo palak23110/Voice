@@ -4,7 +4,7 @@
 ## Project Overview
 **Voices** is a web based blogging platform where users can freely express their thoughts, ideas and experiences. The goal of this project is to create a simple and open digital space where people can write what's on their mind and share it with others.
 
-This project focuses on combining **frontend design**, **backend development**, and **database integration** to build a functional content sharing platform.
+This project focuses on combining **frontend design**, **backend development** and **database integration** to build a functional content sharing platform.
 
 Currently, the project is still under development and runs on a **local server**, with database support hosted on **MongoDB Atlas (Cloud)**.
 
