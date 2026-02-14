@@ -56,7 +56,7 @@ Follow these steps to see the project output on your system:
 
 ### 1️. Clone the Repository
 ```bash
-git clone https://github.com/YOUR-USERNAME/voices-blogging-platform.git
+git clone https://github.com/palak23110/voices-blogging-platform.git
 cd voices-blogging-platform
 ```
 
