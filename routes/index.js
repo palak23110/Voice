@@ -48,6 +48,14 @@ router.get('/contact', (req, res) => {
   });
 });
 
+// Weekly question page
+router.get('/weekly-question', (req, res) => {
+  res.render('weekly-question', {
+    title: 'Weekly Question - Voices',
+    user: req.session.user
+  });
+});
+
 // Contact form submission
 router.post('/contact', (req, res) => {
   // In a real application, you would send an email or save to database

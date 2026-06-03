@@ -1,13 +1,18 @@
 [
   {
-    "id": "6919d641cced19e580727687",
-    "title": "paper",
-    "excerpt": "paper is very important in student life\r\n",
-    "author": "saksham.nagar",
-    "category": "Politics",
-    "views": 1,
-    "imageUrl": "/images/default-blog.jpg",
-    "createdAt": "2025-11-16T13:48:49.579Z",
-    "tags": []
+    "id": "6a1e4e9e1e0de1e53bf01664",
+    "title": "Finding Focus in a Distracted World",
+    "excerpt": "Modern life is full of distractions, making focus one of the most valuable skills we can develop.",
+    "author": "palak",
+    "category": "Lifestyle",
+    "views": 3,
+    "imageUrl": "https://images.openai.com/static-rsc-4/JhmbTjU7AsNEV3IoUA72U2iI3DlJ1QtLsU-af76jndf2aAbu7YqPSVk3dSIWKFRbbsKPTXIecIdtyB4oKW8Z4LoDGqoesz84SyHk3E1pp9pDipDS4JkTnu2DGiMMp4x-Ep2-XF03EO5X_CNkZjmjfd37ppQsz3egKlz-x0RKekiyq8kwsZepIZoNEziX9qEW?purpose=fullsize",
+    "createdAt": "2026-06-02T03:31:42.589Z",
+    "tags": [
+      "Focus",
+      "Productivity",
+      "Deep Work",
+      "Habits"
+    ]
   }
 ]

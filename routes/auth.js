@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 const User = require('../models/User');
 
 // Login page
@@ -121,6 +122,23 @@ router.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/');
 });
+
+// Google OAuth - start
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// Google OAuth callback
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/auth/login' }), (req, res) => {
+  // Successful authentication
+  const user = req.user;
+  req.session.user = {
+    id: user._id.toString(),
+    username: user.username,
+    email: user.email
+  };
+  res.redirect('/');
+});
+
+// Google OAuth - end
 
 module.exports = router;
 

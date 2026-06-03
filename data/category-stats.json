@@ -5,14 +5,19 @@
     "topTags": []
   },
   "Politics": {
-    "totalPosts": 1,
-    "totalViews": 1,
-    "topTags": []
-  },
-  "Lifestyle": {
     "totalPosts": 0,
     "totalViews": 0,
     "topTags": []
+  },
+  "Lifestyle": {
+    "totalPosts": 1,
+    "totalViews": 1,
+    "topTags": [
+      "Focus",
+      "Productivity",
+      "Deep Work",
+      "Habits"
+    ]
   },
   "Art": {
     "totalPosts": 0,

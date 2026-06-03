@@ -16,11 +16,32 @@ window.addEventListener('scroll', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuToggle = document.getElementById('mobileMenuToggle');
     const navMenu = document.getElementById('navMenu');
-    
+    const mobileBackdrop = document.getElementById('mobileBackdrop');
+
+    function setMenuState(isOpen) {
+        navMenu.classList.toggle('active', isOpen);
+        mobileMenuToggle.classList.toggle('active', isOpen);
+        mobileBackdrop?.classList.toggle('active', isOpen);
+        document.body.classList.toggle('menu-open', isOpen);
+        mobileMenuToggle.setAttribute('aria-expanded', String(isOpen));
+    }
+
     if (mobileMenuToggle && navMenu) {
         mobileMenuToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            mobileMenuToggle.classList.toggle('active');
+            const isOpen = !navMenu.classList.contains('active');
+            setMenuState(isOpen);
+        });
+
+        mobileBackdrop?.addEventListener('click', function() {
+            setMenuState(false);
+        });
+
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    setMenuState(false);
+                }
+            });
         });
     }
 

@@ -1,0 +1,18 @@
+<svg width="320" height="96" viewBox="0 0 320 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#7C5CFF"/>
+      <stop offset="1" stop-color="#2DD4BF"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="84" height="84" rx="24" fill="url(#g)"/>
+  <path d="M32 26C32 19.9249 36.9249 15 43 15H54C60.0751 15 65 19.9249 65 26V33C65 39.0751 60.0751 44 54 44H43C36.9249 44 32 39.0751 32 33V26Z" fill="white" fill-opacity="0.18"/>
+  <path d="M36 29C40.4183 29 44 25.4183 44 21C44 16.5817 40.4183 13 36 13C31.5817 13 28 16.5817 28 21C28 25.4183 31.5817 29 36 29Z" fill="white" opacity="0.95"/>
+  <path d="M53 34H62" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <path d="M45 46H64" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <path d="M40 58H67" stroke="white" stroke-width="4" stroke-linecap="round"/>
+  <path d="M122 25C122 18.3726 127.373 13 134 13H162C168.627 13 174 18.3726 174 25V31C174 37.6274 168.627 43 162 43H134C127.373 43 122 37.6274 122 31V25Z" fill="#151A2B" fill-opacity="0.08"/>
+  <path d="M110 58H170" stroke="#151A2B" stroke-opacity="0.18" stroke-width="8" stroke-linecap="round"/>
+  <text x="104" y="68" fill="#151A2B" font-family="Segoe UI, Arial, sans-serif" font-size="42" font-weight="800" letter-spacing="-1">Voices</text>
+  <text x="104" y="85" fill="#70809B" font-family="Segoe UI, Arial, sans-serif" font-size="12" letter-spacing="6">PREMIUM BLOGGING</text>
+</svg>

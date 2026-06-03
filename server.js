@@ -4,16 +4,15 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const path = require('path');
 require('dotenv').config();
+const passport = require('passport');
+require('./config/passport');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // MongoDB Connection
-mongoose.connect('mongodb+srv://palakgupta:pg2006@cluster0.u3rivcr.mongodb.net/voices'
-, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+console.log("Mongo URI:", process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('MongoDB Connected Successfully'))
 .catch(err => console.error('MongoDB Connection Error:', err));
 
@@ -22,11 +21,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(session({
-  secret: 'voices-secret-key-2024',
+  secret: process.env.SESSION_SECRET || 'voices-secret-key-2024',
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 hours
 }));
+
+// Initialize Passport (after session)
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Set EJS as template engine
 app.set('view engine', 'ejs');
@@ -39,6 +42,7 @@ const authRoutes = require('./routes/auth');
 const categoryRoutes = require('./routes/category');
 const apiRoutes = require('./routes/api');
 const featuredRoutes = require('./routes/featured');
+const profileRoutes = require('./routes/profile');
 
 app.use('/', indexRoutes);
 app.use('/blog', blogRoutes);
@@ -46,6 +50,7 @@ app.use('/auth', authRoutes);
 app.use('/category', categoryRoutes);
 app.use('/api', apiRoutes);
 app.use('/featured', featuredRoutes);
+app.use('/profile', profileRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

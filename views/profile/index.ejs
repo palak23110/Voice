@@ -1,0 +1,120 @@
+<%- include('../partials/header') %>
+<link rel="stylesheet" href="/css/profile.css">
+<main class="profile-page">
+    <div class="profile-container">
+        <div class="profile-inner">
+            <aside class="profile-sidebar">
+                <div class="sidebar-section sidebar-brand">
+                    <p class="eyebrow">My Profile</p>
+                    <h2>Dashboard</h2>
+                </div>
+                <nav class="sidebar-nav">
+                    <a href="/profile" class="active">Overview</a>
+                    <a href="/profile?tab=popular">Popular</a>
+                    <a href="/profile?tab=recommended">Recommended</a>
+                    <a href="/profile?tab=newest">Newest</a>
+                </nav>
+                <div class="sidebar-section sidebar-footer">
+                    <a href="/profile/settings">Settings</a>
+                    <a href="/profile/help">Help</a>
+                    <a href="/auth/logout" class="logout-link">Logout</a>
+                </div>
+            </aside>
+
+            <div class="profile-main">
+                <section class="profile-header-card">
+                    <% const coverImage = profileUser.coverImageUrl || 'https://images.unsplash.com/photo-1494526585095-c41746248156?w=1200&q=80'; %>
+                    <div class="profile-banner" style="background-image: url('<%= coverImage %>');">
+                        <a href="/profile/settings" class="btn btn-secondary edit-cover-btn">Edit Cover</a>
+                    </div>
+
+                    <div class="profile-header-row">
+                        <% if (profileUser.avatarUrl) { %>
+                            <div class="profile-avatar" style="background-image: url('<%= profileUser.avatarUrl %>');">
+                        <% } else { %>
+                            <div class="profile-avatar">
+                        <% } %>
+                            <% if (!profileUser.avatarUrl) { %>
+                                <span><%= profileUser.username ? profileUser.username.charAt(0).toUpperCase() : 'U' %></span>
+                            <% } %>
+                        </div>
+
+                        <div class="profile-user-info">
+                            <div class="profile-user-heading">
+                                <div>
+                                    <h1><%= profileUser.username %></h1>
+                                    <p class="profile-role">Writer</p>
+                                </div>
+                                <a href="/profile/settings" class="btn btn-primary edit-profile-btn">Edit Profile</a>
+                            </div>
+                            <div class="profile-meta">
+                                <span>Joined <%= new Date(profileUser.createdAt).toLocaleDateString() %></span>
+                                <span><%= totalBlogs %> Blogs Published</span>
+                            </div>
+                            <% if (profileUser.bio) { %>
+                                <p class="profile-bio"><%= profileUser.bio %></p>
+                            <% } %>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="profile-stats-grid">
+                    <div class="profile-stat-card">
+                        <strong><%= totalBlogs %></strong>
+                        <span>Blogs Published</span>
+                    </div>
+                    <div class="profile-stat-card">
+                        <strong><%= totalViews %></strong>
+                        <span>Total Views</span>
+                    </div>
+                    <div class="profile-stat-card">
+                        <strong><%= totalComments %></strong>
+                        <span>Total Comments</span>
+                    </div>
+                    <div class="profile-stat-card">
+                        <strong>0</strong>
+                        <span>Followers</span>
+                    </div>
+                </section>
+
+                <section class="profile-tabs-section">
+                    <div class="profile-tab-nav">
+                        <a href="/profile?tab=popular" class="<%= tab === 'popular' ? 'active' : '' %>">Popular</a>
+                        <a href="/profile?tab=recommended" class="<%= tab === 'recommended' ? 'active' : '' %>">Recommended</a>
+                        <a href="/profile?tab=newest" class="<%= tab === 'newest' ? 'active' : '' %>">Newest</a>
+                    </div>
+                </section>
+
+                <section class="profile-blogs-section">
+                    <div class="profile-blog-grid blogs-grid">
+                        <% if (blogs.length > 0) { %>
+                            <% blogs.forEach(blog => { %>
+                                <article class="blog-card" data-aos="zoom-in">
+                                    <div class="blog-card-image">
+                                        <img src="<%= blog.imageUrl || '/images/default-blog.jpg' %>" alt="<%= blog.title %>">
+                                        <span class="blog-category"><%= blog.category %></span>
+                                    </div>
+                                    <div class="blog-card-content">
+                                        <h3 class="blog-card-title"><a href="/blog/<%= blog._id %>"><%= blog.title %></a></h3>
+                                        <p class="blog-card-excerpt"><%= blog.excerpt %></p>
+                                        <div class="blog-card-meta">
+                                            <span class="blog-views">👁 <%= blog.views || 0 %> views</span>
+                                            <span class="blog-date"><%= new Date(blog.createdAt).toLocaleDateString() %></span>
+                                        </div>
+                                    </div>
+                                </article>
+                            <% }); %>
+                        <% } else { %>
+                            <div class="profile-empty">
+                                <h3>You haven't published any blogs yet.</h3>
+                                <p>Share your first story and get your profile started.</p>
+                                <a href="/blog/create/new" class="btn btn-primary">Start Writing</a>
+                            </div>
+                        <% } %>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+<%- include('../partials/footer') %>

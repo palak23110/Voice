@@ -3,7 +3,8 @@
 <main class="main-content page-blog-detail">
     <% if (typeof blog !== 'undefined' && blog) { %>
     <!-- Blog Banner Background -->
-    <div class="blog-banner-bg" style="background-image: url('<%= blog.imageUrl || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80' %>');"></div>
+    <% const bannerImage = blog.imageUrl || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80'; %>
+    <div class="blog-banner-bg" style="background-image: url('<%= bannerImage %>');"></div>
     <div class="blog-banner-overlay"></div>
     
     <div class="container">
@@ -24,12 +25,12 @@
 
             <div class="blog-content">
                 <div class="blog-body" data-aos="fade-up" data-aos-delay="200">
-                    <%= (blog.content || 'Content coming soon...').replace(/\n/g, '<br>') %>
+                    <%- (blog.content || 'Content coming soon...').replace(/\n/g, '<br>') %>
                 </div>
 
                 <% if (blog.tags && blog.tags.length > 0) { %>
                     <div class="blog-tags" data-aos="fade-up" data-aos-delay="300">
-                        <strong>Tags:</strong>
+                        <strong>Tags:</strong>  
                         <% blog.tags.forEach(tag => { %>
                             <span class="tag"><%= tag %></span>
                         <% }); %>

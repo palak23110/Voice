@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Voices is a premium blogging platform with elegant layouts, modern typography, and thoughtful storytelling.">
     <title><%= typeof title !== 'undefined' ? title : 'Voices - Share Your Perspective' %></title>
+    <link rel="icon" type="image/svg+xml" href="/images/voices-favicon.svg">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
@@ -15,16 +17,18 @@
         <nav class="navbar">
             <div class="container">
                 <div class="nav-wrapper">
-                    <a href="/" class="logo">
-                        <span class="logo-icon">📢</span>
-                        <span class="logo-text">Voices</span>
+                    <a href="/" class="logo" aria-label="Voices home">
+                        <span class="logo-mark" aria-hidden="true">
+                            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="logoGlow" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#7C5CFF"/><stop offset="1" stop-color="#2DD4BF"/></linearGradient></defs><rect width="64" height="64" rx="18" fill="url(#logoGlow)"/><path d="M18 25C18 19.4772 22.4772 15 28 15H36C41.5228 15 46 19.4772 46 25V33C46 38.5228 41.5228 43 36 43H28C22.4772 43 18 38.5228 18 33V25Z" fill="white" fill-opacity="0.18"/><path d="M21 29C25.4183 29 29 25.4183 29 21C29 16.5817 25.4183 13 21 13C16.5817 13 13 16.5817 13 21C13 25.4183 16.5817 29 21 29Z" fill="white"/><path d="M31 35H41" stroke="white" stroke-width="3" stroke-linecap="round"/><path d="M27 44H44" stroke="white" stroke-width="3" stroke-linecap="round"/></svg>
+                        </span>
+                        <span class="logo-copy">
+                            <span class="logo-text">Voices</span>
+                            <span class="logo-tag">Premium blogging</span>
+                        </span>
                     </a>
                     <ul class="nav-menu" id="navMenu">
                         <li><a href="/" class="nav-link">Home</a></li>
-                        <li><a href="/blog/list" class="nav-link">All Blogs</a></li>
-                        <li><a href="/featured" class="nav-link">Featured</a></li>
-                        <li><a href="/about" class="nav-link">About</a></li>
-                        <li><a href="/contact" class="nav-link">Contact</a></li>
+                        <li><a href="/blog/list" class="nav-link">Blogs</a></li>
                         <li class="dropdown">
                             <a href="#" class="nav-link">Categories <span class="dropdown-arrow">▼</span></a>
                             <ul class="dropdown-menu">
@@ -38,23 +42,22 @@
                                 <li><a href="/category/Education">Education</a></li>
                             </ul>
                         </li>
+                        <li><a href="/about" class="nav-link">About</a></li>
+                        <li><a href="/contact" class="nav-link">Contact</a></li>
                         <% if (typeof user !== 'undefined' && user) { %>
                             <li><a href="/blog/create/new" class="nav-link">Write Blog</a></li>
-                            <li class="user-menu">
-                                <a href="#" class="nav-link user-link">
+                            <li>
+                                <a href="/profile" class="nav-link user-link">
                                     <span class="user-icon">👤</span>
                                     <%= user.username %>
                                 </a>
-                                <ul class="user-dropdown">
-                                    <li><a href="/auth/logout">Logout</a></li>
-                                </ul>
                             </li>
                         <% } else { %>
                             <li><a href="/auth/login" class="nav-link">Login</a></li>
                             <li><a href="/auth/signup" class="nav-link btn-primary">Sign Up</a></li>
                         <% } %>
                     </ul>
-                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu" aria-expanded="false">
                         <span></span>
                         <span></span>
                         <span></span>
@@ -63,4 +66,5 @@
             </div>
         </nav>
     </header>
+    <div class="mobile-backdrop" id="mobileBackdrop"></div>
 
