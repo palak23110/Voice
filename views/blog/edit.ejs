@@ -1,7 +1,6 @@
 <%- include('../partials/header') %>
 
 <main class="main-content page-edit-blog">
-    <!-- Edit Page Background -->
     <div class="page-hero-bg"></div>
     <div class="page-hero-overlay"></div>
     
@@ -30,16 +29,15 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="category">Category *</label>
-                    <select id="category" name="category" required>
-                        <option value="Technology" <%= blog.category === 'Technology' ? 'selected' : '' %>>Technology</option>
-                        <option value="Politics" <%= blog.category === 'Politics' ? 'selected' : '' %>>Politics</option>
-                        <option value="Lifestyle" <%= blog.category === 'Lifestyle' ? 'selected' : '' %>>Lifestyle</option>
-                        <option value="Art" <%= blog.category === 'Art' ? 'selected' : '' %>>Art</option>
-                        <option value="Science" <%= blog.category === 'Science' ? 'selected' : '' %>>Science</option>
-                        <option value="Business" <%= blog.category === 'Business' ? 'selected' : '' %>>Business</option>
-                        <option value="Health" <%= blog.category === 'Health' ? 'selected' : '' %>>Health</option>
-                        <option value="Education" <%= blog.category === 'Education' ? 'selected' : '' %>>Education</option>
-                    </select>
+                    <input type="text" id="category" name="category" list="categoryOptions" value="<%= blog.category %>" required autocomplete="off">
+                    <datalist id="categoryOptions">
+                        <% if (typeof categories !== 'undefined') { %>
+                            <% categories.forEach(cat => { %>
+                                <option value="<%= cat.name %>"></option>
+                            <% }); %>
+                        <% } %>
+                    </datalist>
+                    <small class="form-hint">Select an existing category or type a new one.</small>
                 </div>
 
                 <div class="form-group">

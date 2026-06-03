@@ -4,7 +4,7 @@ const User = require('../models/User');
 const Blog = require('../models/Blog');
 const Comment = require('../models/Comment');
 const bcrypt = require('bcryptjs');
-const mongoose = require('mongoose');
+const { buildProfileViewData } = require('../utils/profileHelper');
 
 const ensureAuthenticated = (req, res, next) => {
   if (!req.session.user) {
@@ -13,66 +13,67 @@ const ensureAuthenticated = (req, res, next) => {
   next();
 };
 
-router.use(ensureAuthenticated);
-
+// Existing profile route — optional ?u=username to view another writer (same profile/index view)
 router.get('/', async (req, res, next) => {
   try {
-    const profileUser = await User.findById(req.session.user.id).lean();
-    if (!profileUser) {
+    const usernameParam = req.query.u;
+    const tab = req.query.tab || 'popular';
+
+    if (usernameParam) {
+      const profileUser = await User.findOne({
+        username: new RegExp(`^${usernameParam.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i')
+      }).lean();
+
+      if (!profileUser) {
+        return res.status(404).render('error', {
+          error: 'User not found',
+          user: req.session.user
+        });
+      }
+
+      if (req.session.user && req.session.user.id === profileUser._id.toString()) {
+        const tabQuery = tab && tab !== 'popular' ? `?tab=${tab}` : '';
+        return res.redirect(`/profile${tabQuery}`);
+      }
+
+      const viewData = await buildProfileViewData(profileUser._id, tab);
+      if (!viewData) {
+        return res.status(404).render('error', {
+          error: 'User not found',
+          user: req.session.user
+        });
+      }
+
+      return res.render('profile/index', {
+        title: `${profileUser.username} - Voices`,
+        user: req.session.user,
+        ...viewData
+      });
+    }
+
+    if (!req.session.user) {
+      return res.redirect('/auth/login');
+    }
+
+    const viewData = await buildProfileViewData(req.session.user.id, tab);
+    if (!viewData) {
       req.session.destroy(() => {
         res.redirect('/auth/login');
       });
       return;
     }
 
-    const blogs = await Blog.find({ authorId: req.session.user.id, published: true }).lean();
-    const blogIds = blogs.map(blog => blog._id);
-
-    const commentCounts = await Comment.aggregate([
-      { $match: { blogId: { $in: blogIds } } },
-      { $group: { _id: '$blogId', count: { $sum: 1 } } }
-    ]);
-
-    const commentMap = commentCounts.reduce((map, item) => {
-      map[item._id.toString()] = item.count;
-      return map;
-    }, {});
-
-    blogs.forEach(blog => {
-      blog.commentCount = commentMap[blog._id.toString()] || 0;
-    });
-
-    const tab = req.query.tab || 'popular';
-    let sortedBlogs = [...blogs];
-
-    if (tab === 'recommended') {
-      sortedBlogs.sort((a, b) => ((b.likes || 0) + (b.commentCount || 0)) - ((a.likes || 0) + (a.commentCount || 0)));
-    } else if (tab === 'newest') {
-      sortedBlogs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    } else {
-      sortedBlogs.sort((a, b) => (b.views || 0) - (a.views || 0));
-    }
-
-    const totalBlogs = blogs.length;
-    const totalViews = blogs.reduce((sum, blog) => sum + (blog.views || 0), 0);
-    const totalComments = blogs.reduce((sum, blog) => sum + (blog.commentCount || 0), 0);
-
     res.render('profile/index', {
       title: 'Profile - Voices',
       user: req.session.user,
-      profileUser,
-      blogs: sortedBlogs,
-      tab,
-      totalBlogs,
-      totalViews,
-      totalComments
+      ...viewData
     });
   } catch (error) {
     next(error);
   }
 });
 
-router.get('/settings', async (req, res, next) => {
+router.get('/settings', ensureAuthenticated, async (req, res, next) => {
   try {
     const profileUser = await User.findById(req.session.user.id).lean();
     if (!profileUser) {
@@ -94,7 +95,7 @@ router.get('/settings', async (req, res, next) => {
   }
 });
 
-router.post('/settings', async (req, res, next) => {
+router.post('/settings', ensureAuthenticated, async (req, res, next) => {
   try {
     const userId = req.session.user.id;
     const profileUser = await User.findById(userId);
@@ -200,7 +201,7 @@ router.post('/settings', async (req, res, next) => {
   }
 });
 
-router.get('/help', async (req, res, next) => {
+router.get('/help', ensureAuthenticated, async (req, res, next) => {
   try {
     const profileUser = await User.findById(req.session.user.id).lean();
     if (!profileUser) {

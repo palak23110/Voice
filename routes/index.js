@@ -1,19 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const Blog = require('../models/Blog');
+const { attachCommentCounts } = require('../utils/blogHelper');
 
 // Home page
 router.get('/', async (req, res) => {
   try {
-    const featuredBlogs = await Blog.find({ published: true })
+    const featuredRaw = await Blog.find({ published: true })
       .sort({ views: -1 })
       .limit(3)
       .exec();
     
-    const recentBlogs = await Blog.find({ published: true })
+    const recentRaw = await Blog.find({ published: true })
       .sort({ createdAt: -1 })
       .limit(6)
       .exec();
+
+    const featuredBlogs = await attachCommentCounts(featuredRaw);
+    const recentBlogs = await attachCommentCounts(recentRaw);
     
     res.render('index', {
       title: 'Voices - Home',

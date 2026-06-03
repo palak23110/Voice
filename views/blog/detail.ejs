@@ -2,20 +2,23 @@
 
 <main class="main-content page-blog-detail">
     <% if (typeof blog !== 'undefined' && blog) { %>
-    <!-- Blog Banner Background -->
     <% const bannerImage = blog.imageUrl || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80'; %>
+    <% const categoryHref = blog.categorySlug ? '/category/' + blog.categorySlug : '/category/' + encodeURIComponent(blog.category); %>
     <div class="blog-banner-bg" style="background-image: url('<%= bannerImage %>');"></div>
     <div class="blog-banner-overlay"></div>
     
     <div class="container">
         <article class="blog-detail" data-aos="fade-up">
             <div class="blog-header">
-                <span class="blog-category-badge"><%= blog.category || 'Uncategorized' %></span>
+                <a href="<%= categoryHref %>" class="blog-category-badge"><%= blog.category || 'Uncategorized' %></a>
                 <h1 class="blog-title"><%= blog.title || 'Untitled Blog' %></h1>
                 <div class="blog-meta">
                     <span class="blog-author">By <strong><%= blog.author || 'Anonymous' %></strong></span>
                     <span class="blog-date"><%= blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Date unknown' %></span>
-                    <span class="blog-views">👁 <%= blog.views || 0 %> views</span>
+                    <button type="button" class="blog-meta-action blog-views-trigger" data-blog-id="<%= blog._id %>" aria-label="View readers">
+                        👁 <%= blog.views || 0 %> views
+                    </button>
+                    <a href="#comments" class="blog-meta-action">💬 <%= typeof commentCount !== 'undefined' ? commentCount : (comments ? comments.length : 0) %> comments</a>
                 </div>
             </div>
 
@@ -48,9 +51,8 @@
             </div>
         </article>
 
-        <!-- Comments Section -->
-        <section class="comments-section" data-aos="fade-up" data-aos-delay="100">
-            <h2>Comments (<%= comments ? comments.length : 0 %>)</h2>
+        <section class="comments-section" id="comments" data-blog-id="<%= blog._id %>" data-aos="fade-up" data-aos-delay="100">
+            <h2>Comments (<span id="commentCountDisplay"><%= typeof commentCount !== 'undefined' ? commentCount : (comments ? comments.length : 0) %></span>)</h2>
             
             <% if (typeof user !== 'undefined' && user) { %>
                 <form action="/blog/<%= blog._id %>/comment" method="POST" class="comment-form">
@@ -61,14 +63,29 @@
                 <p class="login-prompt">Please <a href="/auth/login">login</a> to post a comment.</p>
             <% } %>
 
-            <div class="comments-list">
+            <div class="comments-list" id="commentsList">
                 <% if (comments && comments.length > 0) { %>
                     <% comments.forEach((comment, index) => { %>
-                        <div class="comment-item" data-aos="fade-up" data-aos-delay="<%= index * 50 %>">
-                            <div class="comment-author"><strong><%= comment.author %></strong></div>
-                            <div class="comment-content"><%= comment.content %></div>
-                            <div class="comment-date"><%= new Date(comment.createdAt).toLocaleDateString() %></div>
-                        </div>
+                        <% const profileUrl = '/profile?u=' + encodeURIComponent(comment.author); %>
+                        <% const avatar = comment.authorImage || ''; %>
+                        <article class="comment-item" data-aos="fade-up" data-aos-delay="<%= index * 50 %>">
+                            <div class="comment-header">
+                                <a href="<%= profileUrl %>" class="comment-avatar-link">
+                                    <% if (avatar) { %>
+                                        <img src="<%= avatar %>" alt="<%= comment.author %>" class="comment-avatar">
+                                    <% } else { %>
+                                        <span class="comment-avatar comment-avatar-fallback"><%= comment.author.charAt(0).toUpperCase() %></span>
+                                    <% } %>
+                                </a>
+                                <div class="comment-meta">
+                                    <a href="<%= profileUrl %>" class="comment-author-name"><%= comment.author %></a>
+                                    <time class="comment-timestamp" datetime="<%= comment.createdAt %>">
+                                        <%= new Date(comment.createdAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }) %>
+                                    </time>
+                                </div>
+                            </div>
+                            <p class="comment-content"><%= comment.content %></p>
+                        </article>
                     <% }); %>
                 <% } else { %>
                     <p class="no-comments">No comments yet. Be the first to share your thoughts!</p>
@@ -76,22 +93,12 @@
             </div>
         </section>
 
-        <!-- Related Blogs -->
         <% if (relatedBlogs && relatedBlogs.length > 0) { %>
             <section class="related-blogs" data-aos="fade-up" data-aos-delay="200">
                 <h2>Related Blogs</h2>
                 <div class="blogs-grid">
-                    <% relatedBlogs.forEach((relatedBlog, index) => { %>
-                        <div class="blog-card" data-aos="zoom-in" data-aos-delay="<%= index * 100 %>">
-                            <div class="blog-card-image">
-                                <img src="<%= relatedBlog.imageUrl || '/images/default-blog.jpg' %>" alt="<%= relatedBlog.title %>">
-                                <span class="blog-category"><%= relatedBlog.category %></span>
-                            </div>
-                            <div class="blog-card-content">
-                                <h3 class="blog-card-title"><a href="/blog/<%= relatedBlog._id %>"><%= relatedBlog.title %></a></h3>
-                                <p class="blog-card-excerpt"><%= relatedBlog.excerpt %></p>
-                            </div>
-                        </div>
+                    <% relatedBlogs.forEach(relatedBlog => { %>
+                        <%- include('../partials/blog-card', { blog: relatedBlog }) %>
                     <% }); %>
                 </div>
             </section>
@@ -110,4 +117,16 @@
     <% } %>
 </main>
 
+<%- include('../partials/views-modal') %>
 <%- include('../partials/footer') %>
+<script src="/js/blogInteractions.js"></script>
+<% if (typeof scrollToComments !== 'undefined' && scrollToComments) { %>
+<script>document.addEventListener('DOMContentLoaded', () => document.getElementById('comments')?.scrollIntoView({ behavior: 'smooth' }));</script>
+<% } %>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.hash === '#comments') {
+        document.getElementById('comments')?.scrollIntoView({ behavior: 'smooth' });
+    }
+});
+</script>

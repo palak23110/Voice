@@ -14,6 +14,11 @@ const commentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
+  authorImage: {
+    type: String,
+    trim: true,
+    default: ''
+  },
   content: {
     type: String,
     required: true,
