@@ -1,6 +1,5 @@
 <%- include('../partials/header') %>
 <link rel="stylesheet" href="/css/profile.css">
-<% const isOwner = typeof user !== 'undefined' && user && profileUser && user.id === profileUser._id.toString(); %>
 <main class="profile-page">
     <div class="profile-container">
         <div class="profile-inner">
@@ -26,9 +25,7 @@
                 <section class="profile-header-card">
                     <% const coverImage = profileUser.coverImageUrl || 'https://images.unsplash.com/photo-1494526585095-c41746248156?w=1200&q=80'; %>
                     <div class="profile-banner" style="background-image: url('<%= coverImage %>');">
-                        <% if (isOwner) { %>
-                            <a href="/profile/settings" class="btn btn-secondary edit-cover-btn">Edit Cover</a>
-                        <% } %>
+                        <a href="/profile/settings" class="btn btn-secondary edit-cover-btn">Edit Cover</a>
                     </div>
 
                     <div class="profile-header-row">
@@ -48,9 +45,7 @@
                                     <h1><%= profileUser.username %></h1>
                                     <p class="profile-role">Writer</p>
                                 </div>
-                                <% if (isOwner) { %>
-                                    <a href="/profile/settings" class="btn btn-primary edit-profile-btn">Edit Profile</a>
-                                <% } %>
+                                <a href="/profile/settings" class="btn btn-primary edit-profile-btn">Edit Profile</a>
                             </div>
                             <div class="profile-meta">
                                 <span>Joined <%= new Date(profileUser.createdAt).toLocaleDateString() %></span>
@@ -113,9 +108,7 @@
                             <div class="profile-empty">
                                 <h3>You haven't published any blogs yet.</h3>
                                 <p>Share your first story and get your profile started.</p>
-                                <% if (isOwner) { %>
-                                    <a href="/blog/create/new" class="btn btn-primary">Start Writing</a>
-                                <% } %>
+                                <a href="/blog/create/new" class="btn btn-primary">Start Writing</a>
                             </div>
                         <% } %>
                     </div>

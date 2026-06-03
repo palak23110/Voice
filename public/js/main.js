@@ -148,11 +148,9 @@ function performSearch() {
 }
 
 // Display search results
-function displaySearchResults(data) {
+function displaySearchResults(results) {
     const blogsGrid = document.getElementById('blogsGrid');
     if (!blogsGrid) return;
-
-    const results = Array.isArray(data) ? data : (data.blogs || []);
 
     if (results.length === 0) {
         blogsGrid.innerHTML = '<p class="no-blogs">No blogs found matching your search.</p>';
@@ -168,15 +166,9 @@ function displaySearchResults(data) {
             <div class="blog-card-content">
                 <h3 class="blog-card-title"><a href="/blog/${blog._id}">${blog.title}</a></h3>
                 <p class="blog-card-excerpt">${blog.excerpt}</p>
-                <div class="blog-card-footer">
-                    <div class="blog-card-byline">
-                        <span class="blog-author">By ${blog.author}</span>
-                        ${blog.createdAt ? `<span class="blog-date">${new Date(blog.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}
-                    </div>
-                    <div class="blog-card-engagement">
-                        <button type="button" class="blog-views blog-views-trigger" data-blog-id="${blog._id}">👁 ${blog.views || 0} Views</button>
-                        <a href="/blog/${blog._id}?comments=1#comments" class="blog-comments-link">💬 Comments</a>
-                    </div>
+                <div class="blog-card-meta">
+                    <span class="blog-author">By ${blog.author}</span>
+                    <span class="blog-views">👁 ${blog.views} views</span>
                 </div>
             </div>
         </div>

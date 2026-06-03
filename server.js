@@ -8,19 +8,12 @@ const passport = require('passport');
 require('./config/passport');
 
 const app = express();
-const PORT = process.env.PORT ||  10000;
+const PORT = process.env.PORT || 3000;
 
 // MongoDB Connection
 console.log("Mongo URI:", process.env.MONGO_URI);
-const { seedDefaultCategories, syncBlogCategorySlugs } = require('./utils/categoryHelper');
-const loadCategories = require('./middleware/loadCategories');
-
 mongoose.connect(process.env.MONGO_URI)
-.then(async () => {
-  console.log('MongoDB Connected Successfully');
-  await seedDefaultCategories();
-  await syncBlogCategorySlugs();
-})
+.then(() => console.log('MongoDB Connected Successfully'))
 .catch(err => console.error('MongoDB Connection Error:', err));
 
 // Middleware
@@ -41,9 +34,6 @@ app.use(passport.session());
 // Set EJS as template engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
-// Load categories for all views
-app.use(loadCategories);
 
 // Routes
 const indexRoutes = require('./routes/index');
@@ -73,4 +63,7 @@ app.use((req, res) => {
   res.status(404).render('error', { error: 'Page Not Found' });
 });
 
-app.listen(PORT, '0.0.0.0');
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+

@@ -25,12 +25,7 @@ const blogSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    trim: true
-  },
-  categorySlug: {
-    type: String,
-    trim: true,
-    default: ''
+    enum: ['Technology', 'Politics', 'Lifestyle', 'Art', 'Science', 'Business', 'Health', 'Education']
   },
   tags: [{
     type: String,

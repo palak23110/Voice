@@ -9,11 +9,9 @@ class BlogCard {
         this.author = data.author;
         this.category = data.category;
         this.views = data.views || 0;
-        this.commentCount = data.commentCount || 0;
         this.imageUrl = data.imageUrl || '/images/default-blog.jpg';
         this.createdAt = data.createdAt;
         this.tags = data.tags || [];
-        this.categorySlug = data.categorySlug || '';
         this.element = null;
     }
 
@@ -24,8 +22,8 @@ class BlogCard {
         card.setAttribute('data-blog-id', this.id);
         card.setAttribute('data-category', this.category);
         
-        const formattedDate = this.createdAt
-            ? new Date(this.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+        const formattedDate = this.createdAt 
+            ? new Date(this.createdAt).toLocaleDateString() 
             : '';
 
         card.innerHTML = `
@@ -38,15 +36,9 @@ class BlogCard {
                     <a href="/blog/${this.id}">${this.title}</a>
                 </h3>
                 <p class="blog-card-excerpt">${this.excerpt}</p>
-                <div class="blog-card-footer">
-                    <div class="blog-card-byline">
-                        <span class="blog-author">By ${this.author}</span>
-                        ${formattedDate ? `<span class="blog-date">${formattedDate}</span>` : ''}
-                    </div>
-                    <div class="blog-card-engagement">
-                        <button type="button" class="blog-views blog-views-trigger" data-blog-id="${this.id}">👁 ${this.views} Views</button>
-                        <a href="/blog/${this.id}?comments=1#comments" class="blog-comments-link">💬 ${this.commentCount} Comments</a>
-                    </div>
+                <div class="blog-card-meta">
+                    <span class="blog-author">By ${this.author}</span>
+                    <span class="blog-views">👁 ${this.views} views</span>
                 </div>
                 ${this.tags.length > 0 ? `
                     <div class="blog-card-tags">

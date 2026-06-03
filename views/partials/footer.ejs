@@ -40,11 +40,10 @@
                 <div class="footer-section">
                     <h4>Trending Categories</h4>
                     <ul>
-                        <% const footerCats = typeof categories !== 'undefined' ? categories.slice(0, 4) : []; %>
-                        <% footerCats.forEach(cat => { %>
-                            <li><a href="/category/<%= cat.slug %>"><%= cat.name %></a></li>
-                        <% }); %>
-                        <li><a href="/blog/list#allCategoriesNav">Explore More</a></li>
+                        <li><a href="/category/Technology">Technology</a></li>
+                        <li><a href="/category/Politics">Politics</a></li>
+                        <li><a href="/category/Lifestyle">Lifestyle</a></li>
+                        <li><a href="/category/Art">Art</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
