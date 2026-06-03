@@ -32,14 +32,12 @@
                         <li class="dropdown">
                             <a href="#" class="nav-link">Categories <span class="dropdown-arrow">▼</span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="/category/Technology">Technology</a></li>
-                                <li><a href="/category/Politics">Politics</a></li>
-                                <li><a href="/category/Lifestyle">Lifestyle</a></li>
-                                <li><a href="/category/Art">Art</a></li>
-                                <li><a href="/category/Science">Science</a></li>
-                                <li><a href="/category/Business">Business</a></li>
-                                <li><a href="/category/Health">Health</a></li>
-                                <li><a href="/category/Education">Education</a></li>
+                                <% const navCats = typeof navCategories !== 'undefined' ? navCategories : (typeof categories !== 'undefined' ? categories.slice(0, 8) : []); %>
+                                <% navCats.forEach(cat => { %>
+                                    <li><a href="/category/<%= cat.slug %>"><%= cat.name %></a></li>
+                                <% }); %>
+                                <li class="dropdown-divider" role="separator"></li>
+                                <li><a href="/blog/list#allCategoriesNav" class="dropdown-explore">Explore More</a></li>
                             </ul>
                         </li>
                         <li><a href="/about" class="nav-link">About</a></li>

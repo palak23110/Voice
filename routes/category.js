@@ -1,79 +1,78 @@
 const express = require('express');
 const router = express.Router();
 const Blog = require('../models/Blog');
-const fs = require('fs');
-const path = require('path');
+const { resolveCategoryFromParam } = require('../utils/categoryHelper');
+const { attachCommentCounts } = require('../utils/blogHelper');
 
-// Category page with JSON-driven content
-router.get('/:categoryName', async (req, res) => {
+router.get('/:categoryParam', async (req, res) => {
   try {
-    const categoryName = req.params.categoryName;
-    const categories = ['Technology', 'Politics', 'Lifestyle', 'Art', 'Science', 'Business', 'Health', 'Education'];
-    
-    if (!categories.includes(categoryName)) {
-      return res.status(404).render('error', { error: 'Category not found' });
+    const category = await resolveCategoryFromParam(req.params.categoryParam);
+
+    if (!category) {
+      return res.status(404).render('error', {
+        error: 'Category not found',
+        user: req.session.user
+      });
     }
-    
-    // Load JSON data for category statistics
-    const jsonDataPath = path.join(__dirname, '../data/category-stats.json');
-    let categoryStats = {};
-    
-    try {
-      const jsonData = fs.readFileSync(jsonDataPath, 'utf8');
-      categoryStats = JSON.parse(jsonData);
-    } catch (error) {
-      // If file doesn't exist, create default stats
-      categoryStats = {
-        [categoryName]: {
-          totalPosts: 0,
-          totalViews: 0,
-          topTags: []
-        }
-      };
-    }
-    
-    // Get blogs for this category
+
+    const categoryName = category.name;
+
     const blogs = await Blog.find({
-      category: categoryName,
+      $or: [
+        { category: categoryName },
+        { categorySlug: category.slug }
+      ],
       published: true
     })
       .sort({ createdAt: -1 })
-      .limit(12)
+      .limit(50)
       .exec();
-    
-    // Update stats from actual data
-    const totalViews = blogs.reduce((sum, blog) => sum + blog.views, 0);
-    const allTags = blogs.flatMap(blog => blog.tags);
+
+    const blogsWithCounts = await attachCommentCounts(blogs);
+
+    const totalPosts = await Blog.countDocuments({
+      $or: [
+        { category: categoryName },
+        { categorySlug: category.slug }
+      ],
+      published: true
+    });
+
+    const allCategoryBlogs = await Blog.find({
+      $or: [
+        { category: categoryName },
+        { categorySlug: category.slug }
+      ],
+      published: true
+    }).select('views tags').lean();
+
+    const totalViews = allCategoryBlogs.reduce((sum, blog) => sum + (blog.views || 0), 0);
+    const allTags = allCategoryBlogs.flatMap((blog) => blog.tags || []);
     const tagCounts = {};
-    allTags.forEach(tag => {
+    allTags.forEach((tag) => {
       tagCounts[tag] = (tagCounts[tag] || 0) + 1;
     });
     const topTags = Object.entries(tagCounts)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 5)
       .map(([tag]) => tag);
-    
-    categoryStats[categoryName] = {
-      totalPosts: blogs.length,
-      totalViews: totalViews,
-      topTags: topTags
-    };
-    
-    // Save updated stats
-    fs.writeFileSync(jsonDataPath, JSON.stringify(categoryStats, null, 2));
-    
+
     res.render('category/detail', {
       title: `${categoryName} - Voices`,
       categoryName,
-      blogs,
-      stats: categoryStats[categoryName],
+      categorySlug: category.slug,
+      blogs: blogsWithCounts,
+      stats: {
+        totalPosts,
+        totalViews,
+        topTags
+      },
       user: req.session.user
     });
   } catch (error) {
     console.error('Error loading category:', error);
-    res.status(500).render('error', { error: 'Error loading category' });
+    res.status(500).render('error', { error: 'Error loading category', user: req.session.user });
   }
 });
 
 module.exports = router;
-
