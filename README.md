@@ -1,84 +1,84 @@
-# Voices  
-*A Blogging Platform to Express Freely*
+# Voices
 
-## Project Overview
-**Voices** is a web based blogging platform where users can freely express their thoughts, ideas and experiences. The goal of this project is to create a simple and open digital space where people can write what's on their mind and share it with others.
+### A Modern Blogging Platform for Sharing Ideas and Perspectives
 
-This project focuses on combining **frontend design**, **backend development** and **database integration** to build a functional content sharing platform.
+Voices is a full-stack blogging platform designed to provide a clean and engaging space where writers can share their thoughts, experiences and perspectives with a wider audience.
 
-Currently, the project is still under development and runs on a **local server**, with database support hosted on **MongoDB Atlas (Cloud)**.
+The platform supports user authentication, profile management, blog publishing, commenting, content categorization and community engagement through a modern and responsive user experience.
 
 ---
 
-## Features (Current & Planned)
+## Features
 
-### Completed
-- User-friendly blogging interface
-- Create and view blog posts
-- Edit and delete blog posts
-- User authentication (Login/Signup)
-- User profile viewing
-- Frontend structure and styling
-- Backend server setup
-- MongoDB cloud database connection
+### Content Creation
 
-### In Progress
-- Deployment to live server
-- Comment system on posts
-- Like/React feature
-- Rich text editor for blogs
-- Improved user dashboard
+* Create, edit and delete blog posts
+* Organize content using categories and tags
+* Featured Voices section for highlighted writers
+* Dynamic blog rendering
 
----
+### User Management
 
-## Tech Stack
+* User registration and login
+* Secure password authentication
+* Google OAuth integration
+* Personalized user profiles
 
-**Frontend:**
-- HTML  
-- CSS  
-- JavaScript  
+### Community Interaction
 
-**Backend:**
-- Node.js  
-- Express.js  
+* Comment system
+* Blog view tracking
+* Author-focused content organization
 
-**Database:**
-- MongoDB Atlas (Cloud Database)
+### Administration & Monitoring
+
+* MongoDB Atlas cloud database integration
+* Real-time management of users, blogs and comments
+* Scalable backend architecture
 
 ---
 
-##  How to Run This Project Locally
+## Technology Stack
 
-Follow these steps to see the project output on your system:
+### Frontend
 
+* HTML5
+* CSS3
+* JavaScript
+* EJS
 
+### Backend
 
+* Node.js
+* Express.js
 
-### 1️. Clone the Repository
-```bash
-git clone https://github.com/palak23110/voices-blogging-platform.git
-cd voices-blogging-platform
-```
+### Database
 
-### 2. Install Dependencies
-Make sure you have Node.js installed, then run:
-```bash 
-npm install
-```
+* MongoDB Atlas
+* Mongoose
 
-### 3. Setup Environment Variables
-Create a .env file in the root folder and add:
+### Authentication
 
-MONGO_URI=your_mongodb_connection_string
-PORT=5000
+* Passport.js
+* Google OAuth 2.0
+* Express Session
 
-Replace your_mongodb_connection_string with your MongoDB Atlas cluster connection link.
+### Security
 
-### 4. Start the Server
-```bash 
-npm start
-```
-### 5. Open in Browser 
-Once the server is running, open your browser and go to:
+* bcryptjs Password Hashing
 
-http://localhost:3000
+---
+
+## Project Status
+
+Voices is actively maintained and continues to evolve with new features, UI improvements and performance enhancements.
+
+Current development focuses on improving community engagement, content discovery and overall user experience.
+
+---
+
+## Developer
+
+Developed and maintained by Palak Gupta.
+
+For suggestions, bug reports or feedback, feel free to reach out through the contact information available on the platform.
