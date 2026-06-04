@@ -1496,78 +1496,7 @@ h1, h2, h3, h4, h5, h6 {
 .blog-card-tags {
     display: flex;
     flex-wrap: wrap;
-}
-
-/* List/grid cards: byline → views | comments → tags (compact, original styling) */
-.blog-card-footer {
-    padding-top: 20px;
-    border-top: 1px solid var(--border-light);
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-
-.blog-card-byline {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    font-size: 14px;
-    color: var(--text-muted);
-}
-
-.blog-card-byline .blog-author {
-    font-weight: 500;
-}
-
-.blog-card-engagement {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    font-size: 14px;
-    color: var(--text-muted);
-}
-
-.blog-card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 16px;
-}
-
-.blog-card-engagement-sep {
-    color: var(--border);
-    font-weight: 300;
-    user-select: none;
-}
-
-.blog-card-engagement .blog-views-trigger {
-    background: none;
-    border: none;
-    padding: 0;
-    font: inherit;
-    color: inherit;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.blog-card-engagement .blog-views-trigger:hover {
-    color: var(--primary);
-}
-
-.blog-card-engagement .blog-comments-link {
-    color: inherit;
-    text-decoration: none;
-    transition: var(--transition);
-}
-
-.blog-card-engagement .blog-comments-link:hover {
-    color: var(--primary);
-}
-
-.blog-card-footer + .blog-card-tags {
-    margin-top: 12px;
+    gap: 8px;
 }
 
 .tag {
@@ -3181,37 +3110,628 @@ h1, h2, h3, h4, h5, h6 {
     .timeline-item::before {
         left: -32px;
     }
-  /* .blog-card-footer {
-    padding-top: 20px;
-    border-top: 1px solid var(--border-light);
+    .dev-notice {
+    margin-top: 60px;
+    padding: 24px 28px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(124, 92, 255, 0.18);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dev-notice h4 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.dev-notice p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.dev-notice a {
+    font-size: 14px;
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.dev-notice a:hover {
+    text-decoration: underline;
+}
+
+    
+}
+
+/* ===== FIX 1 & 2: Categories Section - Explore More Button + Horizontal Scroll ===== */
+
+/* Horizontal scroll wrapper */
+.categories-scroll-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.categories-scroll-track {
+    flex: 1;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.categories-scroll-track::-webkit-scrollbar {
+    display: none;
+}
+
+/* Keep grid as horizontal row inside scroll track */
+.categories-scroll-track .categories-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 24px;
+    padding: 8px 4px 16px;
+    width: max-content;
+    grid-template-columns: unset;
+}
+
+.categories-scroll-track .categories-grid .category-card,
+.categories-scroll-track .categories-section .category-card {
+    flex: 0 0 220px;
+    min-width: 220px;
+    max-width: 220px;
+}
+
+/* Navigation arrows */
+.categories-nav-arrow {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid rgba(124, 92, 255, 0.3);
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--primary, #7C5CFF);
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 2;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    padding: 0;
+}
+
+.categories-nav-arrow:hover {
+    background: var(--primary, #7C5CFF);
+    color: #fff;
+    border-color: var(--primary, #7C5CFF);
+}
+
+.categories-nav-left {
+    margin-right: 12px;
+}
+
+.categories-nav-right {
+    margin-left: 12px;
+}
+
+/* Explore More button - centered with spacing */
+.categories-explore-more {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 48px;
+    margin-bottom: 16px;
+}
+
+/* ===== FIX 4: Comments Section - Avatar + Content Layout ===== */
+
+.comment-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 24px;
+    border-radius: var(--radius-lg, 12px);
+    background: rgba(248, 250, 252, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.comment-item:hover {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transform: translateX(8px) translateY(-2px);
+    border-color: rgba(37, 99, 235, 0.3);
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+/* Avatar circle on the left */
+.comment-avatar {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7C5CFF 0%, #2DD4BF 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+/* Right side content container */
+.comment-body {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Author name - no underline by default */
+.comment-author {
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+    font-size: 15px;
+}
+
+.comment-author-name {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.comment-author-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.comment-author-link:hover {
+    color: var(--primary, #7C5CFF);
+    text-decoration: underline;
+}
+
+.comment-content {
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+.comment-date {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* ============================================================
+   LAYOUT FIXES — Categories pill row + Comment card structure
+   ============================================================ */
+
+/* --- 1. Category Filter Pills: horizontal scroll row with arrows --- */
+
+.filter-pills-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.category-filters {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    gap: 10px !important;
+    padding: 4px 2px 8px !important;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.category-filters::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    padding: 9px 22px !important;
+    border: 2px solid var(--border, #e2e8f0) !important;
+    background: var(--bg-primary, #fff) !important;
+    border-radius: 999px !important;
+    cursor: pointer;
+    font-weight: 600 !important;
+    font-family: inherit;
+    font-size: 14px !important;
+    line-height: 1;
+    transition: all 0.2s ease !important;
+    color: var(--text-primary, #1e293b);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    user-select: none;
+}
+
+.filter-btn:hover {
+    border-color: var(--primary, #7C5CFF) !important;
+    color: var(--primary, #7C5CFF) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(124,92,255,0.15) !important;
+    background: var(--bg-primary, #fff) !important;
+}
+
+.filter-btn.active {
+    background: var(--primary, #7C5CFF) !important;
+    color: #fff !important;
+    border-color: var(--primary, #7C5CFF) !important;
+    box-shadow: 0 4px 14px rgba(124,92,255,0.35) !important;
+    transform: none !important;
+}
+
+/* Arrow buttons flanking the pill row */
+.filter-arrow {
+    flex-shrink: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--border, #e2e8f0);
+    background: var(--bg-primary, #fff);
+    color: var(--primary, #7C5CFF);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    padding: 0;
+}
+
+.filter-arrow:hover {
+    background: var(--primary, #7C5CFF);
+    color: #fff;
+    border-color: var(--primary, #7C5CFF);
+}
+
+/* --- 2. Comment Card: proper header row + date bottom-right --- */
+
+/* Reset old flat rules, enforce flex layout */
+.comment-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+    padding: 20px 24px !important;
+    border-radius: 12px !important;
+    background: rgba(248, 250, 252, 0.85) !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    border-bottom: none !important;
+    margin-bottom: 16px !important;
+    transition: box-shadow 0.2s ease, transform 0.2s ease !important;
+    position: relative;
+}
+
+.comment-item:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
+    transform: translateY(-2px) !important;
+    border-color: rgba(124, 92, 255, 0.2) !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+}
+
+.comment-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Avatar: left column */
+.comment-avatar {
+    flex-shrink: 0 !important;
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #7C5CFF 0%, #2DD4BF 100%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-top: 1px;
+}
+
+/* Right body: flex column, fills remaining space */
+.comment-body {
+    flex: 1 !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+/* Header row: avatar name inline, vertically centered with avatar */
+.comment-header-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 24px;
+}
+
+.comment-author-name,
+.comment-author-link {
+    font-weight: 700 !important;
+    font-size: 15px !important;
+    color: var(--text-primary, #1e293b) !important;
+    text-decoration: none !important;
+    line-height: 1.3;
+}
+
+.comment-author-link:hover {
+    color: var(--primary, #7C5CFF) !important;
+    text-decoration: underline !important;
+}
+
+/* Comment text */
+.comment-content {
+    color: var(--text-secondary, #475569) !important;
+    font-size: 15px !important;
+    line-height: 1.65 !important;
+    margin: 0 !important;
+}
+
+/* Date footer: pushed to the right */
+.comment-footer-row {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    margin-top: 4px !important;
+}
+
+.comment-date {
+    font-size: 12px !important;
+    color: var(--text-muted, #94a3b8) !important;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+/* Remove old stale .comment-author rule conflict */
+.comment-author {
+    display: none;
+}
+
+/* ================================================================
+   ISSUE FIXES: Blog card footer buttons, detail page, category grid
+   ================================================================ */
+
+/* --- 1. Blog Card Footer: Views (left) + Comments (right) --- */
+
+.blog-card-content {
     display: flex;
     flex-direction: column;
-    gap: 16px;   /* byline aur views/comments ke beech gap */
 }
 
-.blog-card-byline {
+.blog-card-footer {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 100%;
-    font-size: 14px;
-    color: var(--text-muted);
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-light, #f1f5f9);
 }
 
-.blog-card-engagement {
-    display: flex;
-    justify-content: space-between;
+.card-action-btn {
+    display: inline-flex;
     align-items: center;
-    width: 100%;
-    font-size: 14px;
-    color: var(--text-muted);
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1;
+    border: 1.5px solid transparent;
 }
 
-.blog-card-tags {
+/* Views button — left side, muted ghost style */
+.card-views-btn {
+    color: var(--text-muted, #94a3b8);
+    background: var(--bg-secondary, #f8fafc);
+    border-color: var(--border, #e2e8f0);
+}
+
+.card-views-btn:hover {
+    color: var(--primary, #7C5CFF);
+    background: rgba(124, 92, 255, 0.06);
+    border-color: rgba(124, 92, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Comments button — right side, brand accent style */
+.card-comments-btn {
+    color: var(--primary, #7C5CFF);
+    background: rgba(124, 92, 255, 0.08);
+    border-color: rgba(124, 92, 255, 0.25);
+}
+
+.card-comments-btn:hover {
+    background: var(--primary, #7C5CFF);
+    color: #fff;
+    border-color: var(--primary, #7C5CFF);
+    box-shadow: 0 4px 12px rgba(124, 92, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.card-action-btn svg {
+    flex-shrink: 0;
+}
+
+/* --- 2. Blog Detail Page: layout and spacing fixes --- */
+
+/* Reduce the excessive top margin on blog detail */
+.page-blog-detail .blog-detail {
+    margin-top: 120px !important;
+    padding: 56px !important;
+}
+
+/* Fix blog title size on smaller screens */
+@media (max-width: 1024px) {
+    .page-blog-detail .blog-detail {
+        margin-top: 100px !important;
+        padding: 40px !important;
+    }
+    .blog-title {
+        font-size: 44px !important;
+    }
+    .blog-image {
+        height: 380px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-blog-detail .blog-detail {
+        margin-top: 80px !important;
+        padding: 28px 20px !important;
+    }
+    .blog-title {
+        font-size: 32px !important;
+    }
+    .blog-image {
+        height: 240px !important;
+        margin: 28px 0 !important;
+    }
+    .blog-meta {
+        gap: 14px !important;
+        font-size: 14px !important;
+    }
+    .blog-body {
+        font-size: 16px !important;
+    }
+    .comments-section {
+        padding: 28px 20px !important;
+    }
+}
+
+/* Blog meta: always flex row, wrap on small screens */
+.blog-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;   /* tags ke beech gap */
-    margin-top: 16px;
+    align-items: center;
+    gap: 20px;
+    color: var(--text-secondary);
+    font-size: 15px;
 }
-    
 
+/* --- 3. Popup: ensure it's top-right toast, not bottom docked --- */
+
+.popup {
+    position: fixed !important;
+    top: 24px !important;
+    right: 24px !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: translateX(110%) !important;
+    max-width: 360px;
+    width: auto;
+}
+
+.popup.show {
+    transform: translateX(0) !important;
+}
+
+/* --- 4. Category page: fix grid alignment and card consistency --- */
+
+.page-category-detail .blogs-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+    gap: 28px !important;
+    align-items: start !important;
+    margin-top: 0 !important;
+}
+
+.page-category-detail .blog-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-category-detail .blog-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Category stats grid alignment */
+.category-stats {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+    gap: 24px !important;
+    margin: 40px 0 48px !important;
+    align-items: start;
+}
+
+.stat-card {
+    margin-top: 0 !important;
+}
+
+/* Consistent card height for all blog grids */
+.blogs-grid .blog-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.blogs-grid .blog-card .blog-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.blogs-grid .blog-card .blog-card-excerpt {
+    flex: 1;
+}
+
+/* Responsive card footer buttons */
+@media (max-width: 480px) {
+    .blog-card-footer {
+        flex-direction: column;
+        gap: 8px;
+        align-items: stretch;
+    }
+    .card-action-btn {
+        justify-content: center;
+    }
+}

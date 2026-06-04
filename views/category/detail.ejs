@@ -1,6 +1,7 @@
 <%- include('../partials/header') %>
 
 <main class="main-content page-category-detail">
+    <!-- Category Background -->
     <div class="page-hero-bg"></div>
     <div class="page-hero-overlay"></div>
     
@@ -10,6 +11,7 @@
             <p>Explore perspectives on <%= categoryName %></p>
         </div>
 
+        <!-- Statistics Section (JSON-driven) -->
         <div class="category-stats" id="categoryStats" data-aos="fade-up" data-aos-delay="100">
             <div class="stat-card" data-aos="zoom-in" data-aos-delay="0">
                 <div class="stat-value"><%= stats ? stats.totalPosts : 0 %></div>
@@ -33,10 +35,34 @@
             </div>
         </div>
 
+        <!-- Blogs Grid -->
         <div class="blogs-grid" id="categoryBlogsGrid" data-aos="fade-up" data-aos-delay="200">
             <% if (blogs && blogs.length > 0) { %>
                 <% blogs.forEach(blog => { %>
-                    <%- include('../partials/blog-card', { blog }) %>
+                    <div class="blog-card" data-blog-id="<%= blog._id %>" data-aos="zoom-in">
+                        <div class="blog-card-image">
+                            <img src="<%= blog.imageUrl || '/images/default-blog.jpg' %>" alt="<%= blog.title %>">
+                            <span class="blog-category"><%= blog.category %></span>
+                        </div>
+                        <div class="blog-card-content">
+                            <h3 class="blog-card-title"><a href="/blog/<%= blog._id %>"><%= blog.title %></a></h3>
+                            <p class="blog-card-excerpt"><%= blog.excerpt %></p>
+                            <div class="blog-card-meta">
+                                <span class="blog-author">By <%= blog.author %></span>
+                                <span class="blog-date"><%= new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></span>
+                            </div>
+                            <div class="blog-card-footer">
+                                <a href="/blog/<%= blog._id %>" class="card-action-btn card-views-btn">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    <%= blog.views || 0 %> Views
+                                </a>
+                                <a href="/blog/<%= blog._id %>#comments-section" class="card-action-btn card-comments-btn">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                    Comments
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 <% }); %>
             <% } else { %>
                 <p class="no-blogs">No blogs in this category yet. <a href="/blog/create/new">Be the first to write!</a></p>
@@ -45,6 +71,5 @@
     </div>
 </main>
 
-<%- include('../partials/views-modal') %>
 <%- include('../partials/footer') %>
-<script src="/js/blogInteractions.js"></script>
+
