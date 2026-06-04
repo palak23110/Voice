@@ -15,7 +15,7 @@
                 <div class="blog-meta">
                     <span class="blog-author">By <strong><%= blog.author || 'Anonymous' %></strong></span>
                     <span class="blog-date"><%= blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Date unknown' %></span>
-                    <span class="blog-views">👁 <%= blog.views || 0 %> views</span>
+                    <span class="blog-views blog-views-trigger" data-blog-id="<%= blog._id %>" style="cursor: pointer;" title="View readers">👁 <%= blog.views || 0 %> views</span>
                 </div>
             </div>
 
@@ -49,8 +49,8 @@
         </article>
 
         <!-- Comments Section -->
-        <section class="comments-section" id="comments-section" data-aos="fade-up" data-aos-delay="100">
-            <h2>Comments (<%= comments ? comments.length : 0 %>)</h2>
+        <section class="comments-section" id="comments" data-blog-id="<%= blog._id %>" data-aos="fade-up" data-aos-delay="100">
+            <h2>Comments (<span id="commentCountDisplay"><%= comments ? comments.length : 0 %></span>)</h2>
             
             <% if (typeof user !== 'undefined' && user) { %>
                 <form action="/blog/<%= blog._id %>/comment" method="POST" class="comment-form">
@@ -61,20 +61,19 @@
                 <p class="login-prompt">Please <a href="/auth/login">login</a> to post a comment.</p>
             <% } %>
 
-            <div class="comments-list">
+            <div class="comments-list" id="commentsList">
                 <% if (comments && comments.length > 0) { %>
                     <% comments.forEach((comment, index) => { %>
+                        <% const profileUrl = comment.author ? `/profile?u=${encodeURIComponent(comment.author)}` : '#'; %>
                         <div class="comment-item" data-aos="fade-up" data-aos-delay="<%= index * 50 %>">
                             <div class="comment-avatar">
-                                <span><%= comment.author ? comment.author.charAt(0).toUpperCase() : 'U' %></span>
+                                <a href="<%= profileUrl %>" class="comment-avatar-link">
+                                    <span><%= comment.author ? comment.author.charAt(0).toUpperCase() : 'U' %></span>
+                                </a>
                             </div>
                             <div class="comment-body">
                                 <div class="comment-header-row">
-                                    <% if (comment.authorId) { %>
-                                        <a href="/profile/<%= comment.authorId %>" class="comment-author-link"><%= comment.author %></a>
-                                    <% } else { %>
-                                        <span class="comment-author-name"><%= comment.author %></span>
-                                    <% } %>
+                                    <a href="<%= profileUrl %>" class="comment-author-link"><%= comment.author %></a>
                                 </div>
                                 <div class="comment-content"><%= comment.content %></div>
                                 <div class="comment-footer-row">
@@ -126,10 +125,10 @@
 <%- include('../partials/footer') %>
 
 <script>
-// Smooth scroll to comments section if #comments-section in URL
+// Smooth scroll to comments section if #comments-section or #comments in URL
 (function() {
-    if (window.location.hash === '#comments-section') {
-        var target = document.getElementById('comments-section');
+    if (window.location.hash === '#comments-section' || window.location.hash === '#comments') {
+        var target = document.getElementById('comments') || document.getElementById('comments-section');
         if (target) {
             setTimeout(function() {
                 var headerH = document.querySelector('.main-header') ? document.querySelector('.main-header').offsetHeight : 80;

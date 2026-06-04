@@ -7,6 +7,8 @@ const BlogView = require('../models/BlogView');
 const { findOrCreateCategory, resolveCategoryFromParam, slugify } = require('../utils/categoryHelper');
 const { attachCommentCounts, getProfileImage } = require('../utils/blogHelper');
 
+const mongoose = require('mongoose');
+
 async function resolveCategoryFilter(categoryParam) {
   if (!categoryParam) return '';
   const category = await resolveCategoryFromParam(categoryParam);
@@ -17,16 +19,29 @@ async function recordUniqueView(blog, userId) {
   if (!userId) return false;
 
   try {
-    const existing = await BlogView.findOne({ blogId: blog._id, userId });
-    if (existing) return false;
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+    const blogObjectId = new mongoose.Types.ObjectId(blog._id);
 
-    await BlogView.create({ blogId: blog._id, userId, viewedAt: new Date() });
-    blog.views = (blog.views || 0) + 1;
-    await blog.save();
-    return true;
+    // Use findOneAndUpdate with upsert to atomically check and record the view
+    // This prevents duplicates at the database level regardless of race conditions
+    const viewRecord = await BlogView.findOneAndUpdate(
+      { blogId: blogObjectId, userId: userObjectId },
+      { $setOnInsert: { blogId: blogObjectId, userId: userObjectId, viewedAt: new Date() } },
+      { upsert: true, new: false, rawResult: true }
+    );
+
+    // If lastErrorObject.updatedExisting is false, it means a new record was inserted
+    if (!viewRecord.lastErrorObject.updatedExisting) {
+      await Blog.findByIdAndUpdate(blogObjectId, { $inc: { views: 1 } });
+      blog.views = (blog.views || 0) + 1;
+      return true;
+    }
+
+    return false;
   } catch (err) {
     if (err.code === 11000) return false;
-    throw err;
+    console.error('Error recording unique view:', err);
+    return false;
   }
 }
 
